@@ -2,11 +2,10 @@
 #+BABEL: :comments no
 #+VERSION: 0.2.0a
 
+#+ATTR_HTML: :alt builstatus image :title travis :align left
 * pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
 pyorgmode is python module to read, manipulate, and produce org-mode files.
 
-# ATTR_HTML: :alt builstatus image :title travis :align left
-# [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
 
 v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
 
@@ -39,7 +38,7 @@ import locale
 locale.setlocale(locale.LC_TIME, "")
 # you'll need it to properly handle
 # date format such as <2017-03-24 Fri>
-# or <2017-03-24 fri.>
+# or <2017-03-24 ven.>
 
 from pyorgmode import *
 
