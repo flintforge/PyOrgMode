@@ -103,18 +103,6 @@ class OrgDate:
             'nottimed_dated':[False, '{0} {1}', '%Y-%m-%d %a'],
             'notdated':[False, '{0}', '%Y-%m-%d'],
         }
-        '''
-        if s.group('time'):
-            if weekday_suffix == "":
-                format_date = 'timed'
-            else:
-                format_date = 'timed_dated'
-        else:
-            if weekday_suffix == "":
-                format_date = 'notdated'
-            else:
-                format_date = 'nottimed_dated'
-        '''
 
         format_date = (s.group('time') and (
             'timed_dated' if weekday_suffix else 'timed'
@@ -145,17 +133,12 @@ class OrgDate:
         match = re.search(search_re, value)
 
         if match:
-            #timed, weekdayed, date = self.parse_datetime(match.group('date'))
-            #self.value = time.strptime(match.group('time1').split()[0], '%H:%M')
-            #self.value = time.struct_time(date[:3] + self.value[3:])
             timed, weekdayed, self.value = self.parse_datetime(
                 match.group('date') + ' ' + match.group('time1'))
             if weekdayed:
                 self.format |= self.WEEKDAYED
             timed, weekdayed, self.end = self.parse_datetime(
                 match.group('date') + ' ' + match.group('time2'))
-            #self.end = time.strptime(match.group('time2').split()[0], '%H:%M')
-            #self.end = time.struct_time(date[:3] + self.end[3:])
             self.format |= self.TIMED | self.DATED | self.RANGED
             return
         # date range over several days
@@ -206,7 +189,6 @@ class OrgDate:
             return ''
 
         if self.format & self.CLOCKED:
-            #fmt_dict['clock'] = "%H:%M"
             return self.value
 
         fmt_dict = {'time': '%H:%M'}
@@ -265,11 +247,15 @@ class OrgPlugin:
     def __init__(self):
         """ Generic initialization """
         self.processed = False
-        self.keepindent = True # By default, the plugin system stores the indentation before the processment
+        # the plugin system stores the indentation before processing
+        self.keepindent = True
         self.keepindent_value = ""
 
     def process(self,current,line):
-        """ This is a wrapper function for _process. Asks the plugin if he can manage this kind of line. Returns True if it can """
+        """
+        A wrapper function for _process.
+        Asks the plugin if it can manage this kind of line.
+        """
         self.processed = False
         if self.keepindent :
             self.keepindent_value = line[0:len(line)-len(line.lstrip(" \t"))] # Keep a trace of the indentation
@@ -278,7 +264,7 @@ class OrgPlugin:
             return self._process(current,line)
 
     def _process(self,current,line):
-        """ This is the function used by the plugin for the management of the line. """
+        """ used by the plugin for the management of the line. """
         self.processed = False
         return current
 
@@ -294,7 +280,8 @@ class OrgPlugin:
         return self._close(current)
 
     def _close(self,current):
-        """ This is the function used by the plugin to close everything that have been opened. """
+        """ This is the function used by the plugin t
+        o close everything that have been opened. """
         self.processed = False
         return current
 
@@ -371,8 +358,6 @@ class OrgClock(OrgPlugin):
         return current
 
     class Element(OrgElement):
-        """Clock is an element taking into account CLOCK elements"""
-        TYPE = "CLOCK_ELEMENT"
 
         def __init__(self,start="",stop="",duration=""):
             OrgElement.__init__(self)
@@ -416,7 +401,6 @@ class OrgSchedule(OrgPlugin):
             Schedule is an element taking into account
             DEADLINE, SCHEDULED and CLOSED parameters of elements
         '''
-        TYPE = "SCHEDULE_ELEMENT"
 
         def __init__(self,scheduled):
 
@@ -455,8 +439,7 @@ class OrgDrawer(OrgPlugin):
         return current # It is a drawer, change the current also (even if not modified)
 
     class Element(OrgElement):
-        """A Drawer object, containing properties and text"""
-        TYPE = "DRAWER_ELEMENT"
+        """A Drawer object, like :properties: """
 
         def __init__(self,name=""):
             OrgElement.__init__(self)
@@ -482,7 +465,7 @@ class OrgDrawer(OrgPlugin):
             return ":" + self.name + ": " + self.value
 
 class OrgTable(OrgPlugin):
-    """A plugin for table managment"""
+    """ table management"""
     def __init__(self):
         OrgPlugin.__init__(self)
         self.regexp = re.compile("^\s*\|")
@@ -501,9 +484,8 @@ class OrgTable(OrgPlugin):
 
     class Element(OrgElement):
         """
-        A Table object
+        Table Element
         """
-        TYPE = "TABLE_ELEMENT"
 
         def __init__(self):
             OrgElement.__init__(self)
@@ -526,7 +508,8 @@ class OrgNode(OrgPlugin):
         all fields except the node (* stars) are optionnal
 
         todo :
-        - detect the todo and done in the OrgCommands (#+seq_todo) before instanciating a node
+        - detect the todo and done in the OrgCommands
+          (#+seq_todo) before instanciating a node
         - make the order flexible
     '''
 
@@ -551,7 +534,6 @@ class OrgNode(OrgPlugin):
 
     regexp = re.compile(len(rgxs)*'%s' % rgxs)
 
-
     def __init__(self):
         OrgPlugin.__init__(self)
         # If the line starts by an indent, it is not a node
@@ -573,7 +555,8 @@ class OrgNode(OrgPlugin):
                 parent = current # Parent is now the current node
             else: # the parent of the current node is the parent
                 parent = current.parent
-                # If we are going back one or more levels, walk through parents
+                # If we are going back one or more levels,
+                # walk through parents
                 while level < current.level:
                     current = current.parent
                     parent = current.parent
@@ -603,7 +586,6 @@ class OrgNode(OrgPlugin):
         # Defines an OrgMode Node in a structure
         # The ID is auto-generated using uuid.
         # The level 0 is the document itself
-        TYPE = "NODE_ELEMENT"
 
         def __init__(self, level=0, todo='', date=None, prio='', heading='', padding='', tags=[], parent=None):
             OrgElement.__init__(self)
@@ -651,13 +633,16 @@ class OrgNode(OrgPlugin):
 
 
         def dict(self):
+            '''
+            turn the node into a nested dictionnary
+            to dump as is json
+            '''
             return (
                 { id(self) : {
                     'date':self.date,
                     'heading' : self.tags,
                     'tags' : self.tags,
                     'level' : self.level,
-                    # needs a special treatment for level 0
                     'content': [
                         n.dict() if
                         isinstance(n,OrgNode.Element) else
@@ -702,15 +687,19 @@ class OrgDataStructure(OrgElement):
     The root property contains a reference to the level 0 node
     """
     root = None
-    TYPE = "DATASTRUCTURE_ELEMENT"
+    '''
+    to throw errors or let go when the structure conformancy isn't met.
+    - only for goody todo_states for now
+    '''
     STRICT = False
 
     def __init__(self):
         OrgElement.__init__(self)
         self.plugins = []
         self.load_plugins(OrgTable(),OrgDrawer(),OrgNode(),OrgSchedule(),OrgClock())
-        # Add a root element
-        # The root node is a special node (no parent) used as a container for the file
+        '''
+        The root node is used as a container for the file
+        '''
         self.root = OrgNode.Element()
         self.root.parent = None
         self.level = 0
@@ -813,53 +802,6 @@ class OrgDataStructure(OrgElement):
                     plugin.done_list.remove(old_state)
         return found
 
-    """
-    def extract_todo_list(self, todo_list=None):
-        '''
-        Extract a list of headings with TODO states specified by the first argument.
-        '''
-        if todo_list is None: # Set default
-            # Kludge to get around lack of self in function declarations
-            todo_list = self.get_todo_states()
-        else:
-            # Check to make sure all todo_list items are registered
-            # with the OrgNode plugin
-            for possible_state in todo_list:
-                if possible_state not in self.get_todo_states("all"):
-                    raise ValueError("State " + possible_state +
-                                     " not registered. See pyorgmode.OrgDataStructure.add_todo_state.")
-        results_list = []
-
-        def extract_from_level(content):
-            '''
-            Recursive function that steps through each node in current level,
-            looking for TODO items and then calls itself to look for
-            TODO items one level down.
-            '''
-            for node in content:
-                # Check if it's a TODO item and add to results
-                try:
-                    current_todo = node.todo
-                    print (node)
-                except AttributeError:
-                    pass
-
-                else: # Handle it
-                    if current_todo in todo_list:
-                        new_todo = OrgTodo(node.heading, node.todo, tags=node.tags,priority=node.priority, node=node)
-                        results_list.append(new_todo)
-
-                # Now check if it has sub-headings
-                try:
-                    next_content = node.content
-                except AttributeError:
-                    pass
-                else: # Hanble it
-                    extract_from_level(next_content)
-
-        extract_from_level(self.root.content)
-        return results_list
-    """
 
     def _read(self,content):
         '''
