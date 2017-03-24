@@ -10,11 +10,11 @@ except ImportError:
     use_setuptools()
     from setuptools import setup, Feature
 
+
 classifiers = """\
 Intended Audience :: Developers
 Intended Audience :: Information Technology
 License :: OSI Approved :: GPL v3
-License :: OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)
 Development Status :: 3 - Alpha
 Natural Language :: English
 Programming Language :: Python :: 2.6
