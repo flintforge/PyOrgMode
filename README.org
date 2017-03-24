@@ -20,9 +20,7 @@ sudo python setup.py install
 #+END_SRC
 
 ** tests
-to run the test suite :
-~python -m unittest discover tests "test_*.py"~
-
+to run the test suite src_bash[:exports code]{python -m unittest discover tests "test_*.py"}
 ** development on ipython
 #+BEGIN_SRC python
 '''
