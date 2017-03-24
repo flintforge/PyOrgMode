@@ -1,0 +1,29 @@
+
++ General
+   - [X] Move tests to separate directory
+   - [ ] Add some examples
+   - [ ] Check for other OS compatibility
+
++ Class OrgDate
+   - [X] support LC_DATE locale
+   - [ ] support multi locale in one file ?
+   - [ ] flexible locale conversions
+       > babel ?
+   - [ ] more data validation
+   - [ ] recurrent events (+1w …)
+
++ Class OrgList
+   - [ ] TODO
+
++ Class OrgProtocol
+   - [ ] Must be written
+
++ Class OrgTable
+   - [ ] Table edition (must add separators, cell length, length calculator…)
+
++ Class OrgNode
+   - [ ] scheduling in the header
+
++ Misc
+   - [X] maximize Pep8 conformancy
+
