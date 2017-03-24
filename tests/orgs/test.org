@@ -1,3 +1,16 @@
+
+#+TITLE: test.org
+#+EMAIL: flint@forge.systems
+# Date:<2017-03-20 09:14:12>
+#+DESCRIPTION: pyorgmode test file
+#+KEYWORDS: hacking, text
+#+LANGUAGE:
+#+OPTIONS: H:2
+#+LANGUAGE: fr
+#+EXCLUDE_TAGS:nopub
+#+TODO: TODO  READY | DONE ALREADY
+#+PRIORITIES: A B C
+
 * Table test
 | elsbl    | lesél | lseilép |
 |----------+-------+---------|
