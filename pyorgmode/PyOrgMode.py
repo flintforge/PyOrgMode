@@ -438,7 +438,7 @@ class OrgSchedule(OrgPlugin):
 
 class OrgDrawer(OrgPlugin):
     """A Plugin for drawers"""
-    rgx = re.compile("(?:\s*)?(?::)(\w+)(?::)\s*(.*)?^")
+    rgx = re.compile("(?:\s*)(?::)(\w+)(?::)\s*(.*)^")
 
     def __init__(self):
         OrgPlugin.__init__(self)
@@ -666,7 +666,8 @@ class OrgNode(OrgPlugin):
                     'content': [
                         n.dict() if
                         isinstance(n,OrgNode.Element) else
-                        self.content
+                        n._output() if isinstance(n,OrgElement) else
+                        n
                         for n in self.content
                     ]
                 }}
@@ -919,13 +920,8 @@ class OrgDataStructure(OrgElement):
     def get_nodes_by_attribute(node, attribute, value):
         found_nodes = []
         if isinstance(node, OrgElement):
-            try:
-                if node.__dict__[attribute] == value:
-                    found_nodes = [node]
-
-            except KeyError as e:
-                # TODO: This could be a Property.
-                raise(e)
+            if node.__dict__.get(attribute) == value:
+                found_nodes = [node]
 
             for nodes in node.content:
                 f = OrgDataStructure.get_nodes_by_attribute(nodes, attribute,value)
@@ -947,10 +943,3 @@ class OrgDataStructure(OrgElement):
     @staticmethod
     def get_nodes_by_priority(node,value):
         return OrgDataStructure.get_nodes_by_attribute(node, 'priority', value)
-
-
-    @staticmethod
-    def json(node):
-        return "{%s:{date:'%s', heading:'%s', tags:%s, content:%s }}" % (
-            id(node), node.date, node.heading, node.tags, node.content
-        )
