@@ -52,6 +52,33 @@ for it in topnodes :
 #+END_SRC
 
 
+
+* TODO Organize party [1/8]
+- [-] Tests [1/3]
+   - [X] Move tests to separate directory
+   - [ ] Check for other OS compatibility
+   - [ ] provide a bigger and more extensive test.org
+
+- [-]  OrgDate [1/5]
+   - [X] support LC_DATE locale
+   - [ ] multilocale / strpdate format in one file
+   - [ ] or inline locale conversions ([[http://babel.pocoo.org/en/latest/locale.html][babel]] ?)
+   - [ ] enforce date validation (99:99)
+   - [ ] recurrent events (+1w …)
+
+- [ ] OrgList
+- [ ] OrgProtocol
+- [ ] OrgTable
+- [ ] Table edition 
+   - separators, cell length, length calculator…
+
+- [-] OrgNode [0/2]
+   - [ ] scheduling in orgnode header
+   - [ ] test all get_by_attributes()
+
+- [X] more Pep8 conformancy
+
+
 ** Authors
 
 #+begin_src ascii :tangle AUTHORS :exports code
