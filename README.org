@@ -2,11 +2,11 @@
 #+BABEL: :comments no
 #+VERSION: 0.2.0a
 
-* pyorgmode
+* pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
 pyorgmode is python module to read, manipulate, and produce org-mode files.
 
-#+ATTR_HTML: :alt builstatus image :title travis :align left
-[[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
+# ATTR_HTML: :alt builstatus image :title travis :align left
+# [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
 
 v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
 
@@ -18,8 +18,7 @@ We would like to thank all the people who contribute.
 Download the git repo, install the package.
 #+BEGIN_SRC sh
 git clone https://github.com/flintforge/pyorgmode.git
-cd pyorgmode/
-sudo python setup.py install
+cd pyorgmode && python setup.py install
 #+END_SRC
 
 ** tests
