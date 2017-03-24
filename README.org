@@ -5,6 +5,9 @@
 * pyorgmode
 pyorgmode is python module to read, manipulate, and produce org-mode files.
 
+#+ATTR_HTML: :alt builstatus image :title travis :align left
+[[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
+
 v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
 
 We would like to thank all the people who contribute.
