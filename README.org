@@ -4,7 +4,7 @@
 
 #+ATTR_HTML: :alt builstatus image :title travis :align left
 * pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]]
-pyorgmode is python module to read, manipulate, and produce org-mode files.
+pyorgmode is python processor for org-mode files.
 
 
 v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
