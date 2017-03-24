@@ -31,10 +31,6 @@ orgfiles, by "bookkeeping" python objects
 import re
 import time
 
-# to set the locale LC_TIME
-# locale.setlocale(locale.LC_ALL, "")
-# or locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
-
 
 def split_iter(string):
     '''
@@ -514,7 +510,7 @@ class OrgNode(OrgPlugin):
     '''
 
     # seq_todo
-    todo_list = ['TODO,READY']
+    todo_list = ['TODO','READY']
     done_list = ['DONE']
 
     date_format = '%Y-%m-%d %a'
@@ -525,7 +521,7 @@ class OrgNode(OrgPlugin):
             '|'.join(todo_list),
             '|'.join(done_list)
         ),
-        '(<(?P<date>[0-9]{4}-[0-9]{2}-[0-9]{2}\s+[\w.]+)>\s+)?'
+        '(<(?P<date>[0-9]{4}-[0-9]{2}-[0-9]{2}\s+[\w.]+)>\s+)?',
         '((?P<prio>\[.*?\])\s+)?',
         '(?P<heading>.*?)', # non greedy
         '(?P<padding>\s*)', # the padded space before the tags
@@ -856,12 +852,14 @@ class OrgDataStructure(OrgElement):
     @staticmethod
     def get_nodes_by_attribute(node, attribute, value):
         found_nodes = []
-        if isinstance(node, OrgElement):
-            if node.__dict__.get(attribute) == value:
+        if isinstance(node, OrgNode.Element):
+            # to throw an error if the attribute doesn't exist
+            if node.__dict__[attribute] == value:
                 found_nodes = [node]
 
             for nodes in node.content:
-                f = OrgDataStructure.get_nodes_by_attribute(nodes, attribute,value)
+
+                f = OrgDataStructure.get_nodes_by_attribute(nodes, attribute, value)
                 if f:
                     if not found_nodes : found_nodes = []
                     found_nodes += f
@@ -880,3 +878,7 @@ class OrgDataStructure(OrgElement):
     @staticmethod
     def get_nodes_by_priority(node,value):
         return OrgDataStructure.get_nodes_by_attribute(node, 'priority', value)
+
+    @staticmethod
+    def get_nodes_by_tags(node,value):
+        return OrgDataStructure.get_nodes_by_attribute(node, 'tags', value)
