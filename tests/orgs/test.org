@@ -11,7 +11,7 @@
 #+TODO: TODO  READY | DONE ALREADY
 #+PRIORITIES: A B C
 
-* Table test
+* TODO Table test :table:
 | elsbl    | lesél | lseilép |
 |----------+-------+---------|
 | dlitsléb | 10    | 20      |
@@ -68,8 +68,8 @@ et
 #+end_src
 
 
-* Structure des documents
-** /Outlines/
+* DONE Structure des documents
+** DONE /Outlines/
    /Org/ est implémenté au-dessus du mode [[http://www.gnu.org/software/emacs/manual/html_node/emacs/Outline-Mode.html][Outline Mode]] qui permet
    d'éditer des lignes longues. Cela permet aux documents d'être
    organisé dans une structure hiérarchique donnant ainsi une meilleure
@@ -78,7 +78,7 @@ et
    toutes les fonctionnalités de masquage/affichage en une seule
    commande =org-cycle=, qui est accessible via le raccourci <TAB>.
 
-** Sections
+** DONE Sections
    Les sections d'un document sont hiérarchisées à l'aide
    d'étoiles. Par exemple:
 

@@ -29,7 +29,6 @@ class Testpyorgmode(unittest.TestCase):
         assert(headings)
         assert(topnodes)
 
-
     def test_commands(self):
         self.assertEqual(
             self.org.org_commands(),
@@ -48,6 +47,26 @@ class Testpyorgmode(unittest.TestCase):
     def test_dict(self):
         self.org.root.dict()
         # TODO complete
+
+    def test_get_todo(self):
+
+        T = self.org.get_todos(self.org.root,'TODO')
+        todos = [(t.todo, t.heading) for t in T]
+        self.assertEqual(
+            todos,
+            [   ('TODO', 'Table test'),
+                ('TODO', 'Items'),
+                ('TODO', 'keywords as workflow states'),
+                ('TODO', 'keywords as types'),
+                ('TODO', 'dependencies') ]
+        )
+
+        D = self.org.get_todos(self.org.root,'DONE')
+        dones = [(d.todo, d.heading) for d in D]
+        self.assertEqual(
+            dones,
+            [('DONE', 'Structure des documents'), ('DONE', '/Outlines/'), ('DONE', 'Sections')]
+        )
 
     def test_load_save_noheadline_org(self):
 
