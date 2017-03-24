@@ -43,12 +43,6 @@ def split_iter(string):
     return (x.group(0) for x in re.finditer(r".*\n", string))
 
 
-# add enum support
-def enum(*sequential, **named):
-    enums = dict(zip(sequential, range(len(sequential))), **named)
-    return type('Enum', (), enums)
-
-
 # blank space instead of 'None' for None
 def xstr(s):
     return '' if s is None else str(s)
