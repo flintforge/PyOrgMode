@@ -50,10 +50,8 @@ for it in topnodes :
     print (it.level, it.todo, it.priority, it.heading, it.tags)
 #+END_SRC
 
-** Tools
-   [[elisp:org-babel-tangle][Tangle]] (Export the files)
-** Documentation
-*** TODO Authors
+
+** Authors
 
 #+begin_src ascii :tangle AUTHORS :exports code
 Phil ESTIVAL <flint at forge.systems> : maintain this repository
