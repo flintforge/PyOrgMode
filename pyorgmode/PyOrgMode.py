@@ -626,7 +626,8 @@ class OrgNode(OrgPlugin):
 
         def _output(self):
 
-            if self.level is 0 : return ''.join([str(element) for element in self.content])
+            if self.level is 0 :
+                return ''.join([str(element) for element in self.content])
 
             output = '%s %s%s%s%s%s%s%s' % (
                 self.level*'*',

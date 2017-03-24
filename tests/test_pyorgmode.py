@@ -16,7 +16,7 @@ except ImportError:
 class Testpyorgmode(unittest.TestCase):
 
     def setUp(self):
-        locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+        locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8')
         self.org = OrgDataStructure()
         self.infile = "tests/orgs/test.org"
         self.org.load_from_file(self.infile)

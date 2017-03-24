@@ -7,8 +7,7 @@ class TestDates(unittest.TestCase):
     """Test the org file parser with several date formats"""
 
     def setUp(self):
-        #locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
-        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+        locale.setlocale(locale.LC_TIME, 'en_US.UTF-8')
 
     def test_baredate(self):
         """
