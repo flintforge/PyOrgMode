@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+# command to install dependencies
+script: python -m unittest discover tests "test_*.py"
+branches:
+  only:
+    - master
