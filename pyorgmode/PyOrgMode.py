@@ -2,7 +2,7 @@
 '''
 ###############################################################################
 #
-#    pyorgmode, a python module for processing with orgfiles
+#   pyorgmode, a python module for processing org-mode files
 #   Copyright (C) 2010 Jonathan BISSON (bissonjonathan on the google thing).
 #   All Rights Reserved
 #

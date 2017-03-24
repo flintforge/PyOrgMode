@@ -5,42 +5,38 @@
 * pyorgmode
 pyorgmode is python library to read, manipulate, and produce org-mode files.
 
-v0.2.0 is a fork of PyOrgMode and an in-depth rewrite in a more "pythonic" style.
+v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
 
-We would like to thank all the people that contributes (see AUTHORS file).
+We would like to thank all the people who contribute.
 
-** Quick Start
 
-*** Installation
+** Installation
 
-Download the git repo and then install the package.
+Download the git repo, install the package.
 #+BEGIN_SRC sh
 git clone https://github.com/flintforge/pyorgmode.git
 cd pyorgmode/
 sudo python setup.py install
 #+END_SRC
 
-
-*** testing and debugging 
-
-running the test suite :
+** tests
+to run the test suite :
 =python -m unittest discover tests "test_*.py"=
 
-**** with ipython
+** development on ipython
 #+BEGIN_SRC python
 '''
-enable autoreload of the lib whenever
-a change occurs
+enable autoreload of the lib whenever a change occurs
 '''
 %load_ext autoreload
 %autoreload 2
 %aimport pyorgmode
 # set the locale for correct date handling (%a)
 import locale
-locale.setlocale(locale.LC_ALL, "")
+locale.setlocale(locale.LC_TIME, "")
 # you'll need it to properly handle
-# date format such as <2017-20-20 Wed>
-# or <2017-20-20 mer.>
+# date format such as <2017-03-24 Fri>
+# or <2017-03-24 fri.>
 
 from pyorgmode import *
 
@@ -49,99 +45,18 @@ org.load_from_file("tests/orgs/test.org")
 topnodes = org.toplevel_nodes()
 headings = [T.heading for T in topnodes]
 print(headings)
-print(topnodes)
 for it in topnodes :
     print (it.level, it.todo, it.priority, it.heading, it.tags)
-#+END_SRC
-
-*** Import an Org-Mode file
-
-Import pyorgmode
-
-#+BEGIN_SRC python
-from pyorgmode import pyorgmode
-#+END_SRC
-
-Create an Org data structure to hold the org-mode file.
-
-#+BEGIN_SRC python
-base = pyorgmode.OrgDataStructure()
-#+END_SRC
-
-Load the org-mode file.
-
-#+BEGIN_SRC python
-base.load_from_file("test.org")
-#+END_SRC
-
-*** Create an org-mode file
-Create an Org data structure to hold the org-mode file.
-#+BEGIN_SRC python
-base = pyorgmode.OrgDataStructure()
-#+END_SRC
-
-Create a new TODO item
-#+BEGIN_SRC python
-new_todo = pyorgmode.OrgNode.Element()
-new_todo.heading = "I am a new todo item"
-new_todo.tags=["things", "important"]
-new_todo.level = 1
-new_todo.todo = "TODO"
-#+END_SRC
-
-Add a scheduled item and a deadline to the item.
-#+BEGIN_SRC python
-_sched = pyorgmode.OrgSchedule()
-_sched._append(new_todo, _sched.Element(scheduled="<2015-08-01 Sat 12:00-13:00>"))
-_sched._append(new_todo, _sched.Element(deadline="<2015-08-01 Sat 12:00-13:00>"))
-#+END_SRC
-
-Create a logbook drawer
-#+BEGIN_SRC python
-_props = pyorgmode.OrgDrawer.Element("LOGBOOK")
-# Add a properties drawer
-_props.append(pyorgmode.OrgDrawer.Element("- State \"SOMEDAY\"    from \"TODO\"     [2015-07-01 Wed 09:45]"))
-# Append the properties to the new todo item
-new_todo.append_clean(_props)
-#+END_SRC
-
-Create a properties drawer
-#+BEGIN_SRC python
-_props = pyorgmode.OrgDrawer.Element("PROPERTIES")
-# Add a properties drawer
-_props.append(pyorgmode.OrgDrawer.Property("FRUITS", "pineapples"))
-_props.append(pyorgmode.OrgDrawer.Property("NAMES", "bob, sally"))
-# Append the properties to the new todo item
-new_todo.append_clean(_props)
-#+END_SRC
-
-Append the todo item to the base object
-#+BEGIN_SRC python
-base.root.append_clean(new_todo)
-#+END_SRC
-
-Save the org object to a file
-#+BEGIN_SRC python
-base.save_to_file("output.org")
 #+END_SRC
 
 ** Tools
    [[elisp:org-babel-tangle][Tangle]] (Export the files)
 ** Documentation
-*** Authors
-    :PROPERTIES:
-    :ID:       5b9ea3e5-f67b-4be7-9c55-6f1923b04e79
-    :END:
-#+srcname: authors
+*** TODO Authors
+
 #+begin_src ascii :tangle AUTHORS :exports code
+Phil ESTIVAL <flint at forge.systems> : maintain this repository
 Jonathan BISSON <firstname.lastname at bjonnh.net> : initiator of the project
 Antti KAIHOLA <akaihol plus orgmode at ambitone dot com>
-m3wolf (github)
-bordercore (github)
-wroberts (github)
-gonvaled (github)
-10nin (github)
-CodeMonk (github)
-midraal (github)
-whacked (github)
+credits to m3wolf, bordercore, wroberts, gonvaled, 10nin, CodeMonk, midraal, whacked
 #+end_src
