@@ -3,11 +3,24 @@ language: python
 python:
   - "2.7"
   - "3.4"
+  - "pypy"  # PyPy2 2.5.0
+  - "pypy3" # Pypy3 2.4.0
+  - "pypy-5.3.1"
 
-install: pip install discover
 before_install:
   - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-fr
-script: python -m unittest discover tests "test_*.py"
+
+install:
+  - pip install discover
+
+script:
+   - python -m unittest discover tests "test_*.py"
+   - python setup.py install
+
+after_success:
+   - codecov
+
+
 branches:
   only:
     - master

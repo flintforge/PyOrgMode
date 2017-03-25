@@ -7,7 +7,7 @@
 pyorgmode is python processor for org-mode files.
 
 
-v0.2.0 is a fork of this [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]] and a rewrite in a more "pythonic" style.
+This is a pythonic rewrite from the original [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]].
 
 We would like to thank all the people who contribute.
 
@@ -66,6 +66,7 @@ for it in topnodes :
    - [ ] enforce date validation (99:99)
    - [ ] recurrent events (+1w …)
 
+- [ ] OrgBlock , begin/end src, html, tex...
 - [ ] OrgList
 - [ ] OrgProtocol
 - [ ] OrgTable
