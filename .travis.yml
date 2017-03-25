@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get update && sudo apt-get --reinstall install -qq language-pack-fr
 
 install:
-  - pip install discover
+  - pip install discover coverage
 
 script:
    - coverage -m unittest discover tests "test_*.py"
