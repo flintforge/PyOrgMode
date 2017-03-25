@@ -22,9 +22,8 @@ Programming Language :: Python :: 3
 Topic :: Documentation
 """
 
-# Version definition in hardcode
 version = '0.2.0'
-description = 'Org-mode implementation'
+description = 'Org-mode notation module'
 long_description = open("README.org").read()
 packages = ['pyorgmode']
 
@@ -37,7 +36,7 @@ setup(
     author='Johnattan BISSON, Phil ESTIVAL',
     author_email='flint@forge.systems',
     url='https://github.com/flintforge/pyorgmode',
-    license='http://www.apache.org/licenses/LICENSE-2.0',
+    license='https://github.com/flintforge/pyorgmode/blob/master/LICENSE',
     classifiers=filter(None, classifiers.split('\n')),
     keywords=[
         "org-mode", "pyorgmode"
