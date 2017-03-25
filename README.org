@@ -3,7 +3,7 @@
 #+VERSION: 0.2.0a
 
 #+ATTR_HTML: :alt builstatus image :title travis :align left
-* pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]][[https://codecov.io/gh/flintforge/pyorgmode/branch/master/graph/badge.svg]]
+* pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]] [[https://codecov.io/gh/flintforge/pyorgmode/branch/master/graph/badge.svg]]
 pyorgmode is python processor for org-mode files.
 
 
