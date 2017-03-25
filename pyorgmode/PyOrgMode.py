@@ -57,13 +57,26 @@ class OrgDate:
     REPEAT = 64
     CLOCKED = 128
 
-    # TODO: Timestamp with repeater interval
-    DICT_RE = {'start': '[[<]',
-               'end':   '[]>]',
-               'date':  '([0-9]{4})-([0-9]{2})-([0-9]{2})(\s+([\w.]+))?',
-               'time':  '([0-9]{2}):([0-9]{2})',
-               'clock': '([0-9]{1}):([0-9]{2})', # ~ TODO : clock can be many hours digits long
-               'repeat': '[\+\.]{1,2}\d+[dwmy]'}
+    RGX = {'start': '[[<]',
+           'end':   '[]>]',
+           'date':  '([0-9]{4})-([0-9]{2})-([0-9]{2})(\s+([\w.]+))?',
+           'time':  '([0-9]{2}):([0-9]{2})',
+           'clock': '([0-9]{1}):([0-9]{2})', # ~ TODO : clock can be many hours digits long
+           'repeat': '[\+\.]{1,2}\d+[dwmy]'}
+
+
+    rgxDate = '(?P<date>{date})(\s+(?P<time>{time}))?'.format(**RGX)
+
+    rgxDateTimeRange = ('{start}(?P<date>{date})\s+(?P<time1>{time})'
+                        '-(?P<time2>{time}){end}').format(**RGX)
+    rgxDateRange = ('{start}(?P<date1>{date}(\s+{time})?){end}--'
+                    '{start}(?P<date2>{date}(\s+{time})?){end}').format(**RGX)
+
+    rgxDateSingle = ('{start}(?P<datetime>{date}(\s+{time})?)'
+                     '(\s+(?P<repeat>{repeat}))?{end}').format(**RGX)
+
+    rgxClock = '(?P<clocked>{clock})'.format(**RGX)
+
 
     def __init__(self, value=None):
         """
@@ -78,20 +91,19 @@ class OrgDate:
         self.repeat
         self.active
         '''
-        self.set_value(value)
+        self.set(value)
 
     def parse_datetime(self, s):
         """
         Parses an org-mode date time string.
         Returns (timed, weekdayed, time_struct, repeat).
         """
-        search_re = '(?P<date>{date})(\s+(?P<time>{time}))?'.format(
-            **self.DICT_RE)
-        s = re.search(search_re, s)
+        s = re.search(self.rgxDate, s)
 
-        weekdayed = (len(s.group('date').split()) > 1)
+        # fix this. the wd is already in a capture
+        weekdayed = len(s.group('date').split()) > 1
         weekday_suffix = ""
-        if weekdayed is True:
+        if weekdayed:
             weekday_suffix = s.group('date').split()[1]
         formats = {
             'timed_dated':[True, '{0} {1} {2}', '%Y-%m-%d %a %H:%M'],
@@ -114,7 +126,7 @@ class OrgDate:
                     formats[format_date][2]))
 
 
-    def set_value(self,value):
+    def set(self,value):
 
         self.value = None
         # whether it is an active date-time or not
@@ -123,10 +135,7 @@ class OrgDate:
         elif value[0] == '[':
             self.format |= self.INACTIVE
 
-        # time range on a single day
-        search_re = ('{start}(?P<date>{date})\s+(?P<time1>{time})'
-                     '-(?P<time2>{time}){end}').format(**self.DICT_RE)
-        match = re.search(search_re, value)
+        match = re.search(self.rgxDateTimeRange, value)
 
         if match:
             timed, weekdayed, self.value = self.parse_datetime(
@@ -137,11 +146,8 @@ class OrgDate:
                 match.group('date') + ' ' + match.group('time2'))
             self.format |= self.TIMED | self.DATED | self.RANGED
             return
-        # date range over several days
-        search_re = ('{start}(?P<date1>{date}(\s+{time})?){end}--'
-                     '{start}(?P<date2>{date}(\s+{time})?){end}').format(
-            **self.DICT_RE)
-        match = re.search(search_re, value)
+
+        match = re.search(self.rgxDateRange, value)
         if match:
             timed, weekdayed, self.value = self.parse_datetime(
                 match.group('date1'))
@@ -153,9 +159,9 @@ class OrgDate:
                 match.group('date2'))
             self.format |= self.DATED | self.RANGED
             return
+
         # single date with no range
-        search_re = '{start}(?P<datetime>{date}(\s+{time})?)(\s+(?P<repeat>{repeat}))?{end}'.format(**self.DICT_RE)
-        match = re.search(search_re, value)
+        match = re.search(self.rgxDateSingle, value)
         if match:
             timed, weekdayed, self.value = self.parse_datetime(
                 match.group('datetime'))
@@ -169,12 +175,13 @@ class OrgDate:
                 self.format |= self.WEEKDAYED
             self.end = None
             return
-        # clocked time
-        search_re = '(?P<clocked>{clock})'.format(**self.DICT_RE)
-        match = re.search(search_re, value)
+
+        # clock
+        match = re.search(self.rgxClock, value)
         if match:
             self.value = value
             self.format |= self.CLOCKED
+
 
     def get_value(self):
         """
@@ -689,6 +696,9 @@ class OrgDataStructure(OrgElement):
     '''
     STRICT = False
 
+    #+directives: d
+    rgx_directives = re.compile('^#\+([\w]+):\s*(.*)')
+
     def __init__(self):
         OrgElement.__init__(self)
         self.plugins = []
@@ -837,17 +847,16 @@ class OrgDataStructure(OrgElement):
     def toplevel_nodes(self):
         return [N for N in self.root.content if isinstance(N,OrgNode.Element)]
 
-    def org_commands(self):
+    def get_directives(self):
         '''
-            extract the commands in the buffer
+            #+DIRECTIVE: values
             (on top, before any node, otherwise it belongs to the content of a node)
         '''
-        r = re.compile('^#\+([\w]+):\s*(.*)')
-        self.commands = [
+        self.directives = [
             (m.group(1),m.group(2))
             for N in self.root.content if type(N) is str
-            for m in [r.match(N)] if m]
-        return self.commands
+            for m in [self.rgx_directives.match(N)] if m]
+        return self.directives
 
     @staticmethod
     def get_nodes_by_attribute(node, attribute, value):

@@ -29,20 +29,22 @@ class Testpyorgmode(unittest.TestCase):
         assert(headings)
         assert(topnodes)
 
-    def test_commands(self):
-        self.assertEqual(
-            self.org.org_commands(),
-            [('TITLE', 'test.org'),
-             ('EMAIL', 'flint@forge.systems'),
-             ('DESCRIPTION', 'pyorgmode test file'),
-             ('KEYWORDS', 'hacking, text'),
-             ('LANGUAGE', ''),
-             ('OPTIONS', 'H:2'),
-             ('LANGUAGE', 'fr'),
-             ('EXCLUDE_TAGS', 'nopub'),
-             ('TODO', 'TODO  READY | DONE ALREADY'),
-             ('PRIORITIES', 'A B C')]
-        )
+    def test_directives(self):
+
+        expect = [
+            ('TITLE', 'test.org'),
+            ('EMAIL', 'flint@forge.systems'),
+            ('DESCRIPTION', 'pyorgmode test file'),
+            ('KEYWORDS', 'hacking, text'),
+            ('LANGUAGE', ''),
+            ('OPTIONS', 'H:2'),
+            ('LANGUAGE', 'fr'),
+            ('EXCLUDE_TAGS', 'nopub'),
+            ('TODO', 'TODO  READY | DONE ALREADY'),
+            ('PRIORITIES', 'A B C')]
+
+        self.assertEqual( self.org.get_directives(), expect)
+        self.assertEqual( self.org.directives, expect)
 
     def test_dict(self):
         self.org.root.dict()
