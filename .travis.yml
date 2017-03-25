@@ -14,7 +14,7 @@ install:
   - pip install discover
 
 script:
-   - python -m unittest discover tests "test_*.py"
+   - coverage -m unittest discover tests "test_*.py"
    - python setup.py install
 
 after_success:
