@@ -1,19 +1,16 @@
 
 #+BABEL: :comments no
-#+VERSION: 0.2.0a
+#+VERSION: 0.2.0
 
 #+ATTR_HTML: :alt builstatus image :title travis :align left
 * pyorgmode [[https://api.travis-ci.org/flintforge/pyorgmode.svg?branch=master]] [[https://codecov.io/gh/flintforge/pyorgmode/branch/master/graph/badge.svg]]
 pyorgmode is python processor for org-mode files.
 
-
 This is a pythonic rewrite from the original [[https://github.com/bjonnh/PyOrgMode][PyOrgMode]].
 
 We would like to thank all the people who contribute.
 
-
 ** Installation
-
 Download the git repo, install the package.
 #+BEGIN_SRC sh
 git clone https://github.com/flintforge/pyorgmode.git
@@ -21,9 +18,10 @@ cd pyorgmode && python setup.py install
 #+END_SRC
 
 ** tests
-to run the test suite
+Test suite and code coverage
 #+BEGIN_SRC python
-python -m unittest discover tests "test_*.py"
+coverage run -m unittest discover tests
+coverage report -m
 #+END_SRC
 ** development on ipython
 #+BEGIN_SRC python
@@ -51,34 +49,23 @@ for it in topnodes :
     print (it.level, it.todo, it.priority, it.heading, it.tags)
 #+END_SRC
 
-
-
 ** _TODO_ [1/8]
+#+BEGIN_SRC ASCII
 - [-] Tests [1/3]
    - [X] Move tests to separate directory
-   - [ ] Check for other OS compatibility
    - [ ] provide a bigger and more extensive test.org
 
 - [-]  OrgDate [1/5]
-   - [X] support LC_DATE locale
-   - [ ] multilocale / strpdate format in one file
-   - [ ] or inline locale conversions ([[http://babel.pocoo.org/en/latest/locale.html][babel]] ?)
-   - [ ] enforce date validation (99:99)
+   - [ ] remove weekday validation (as in org)
    - [ ] recurrent events (+1w …)
 
 - [ ] OrgBlock , begin/end src, html, tex...
-- [ ] OrgList
-- [ ] OrgProtocol
 - [ ] OrgTable
-- [ ] Table edition 
-   - separators, cell length, length calculator…
 
 - [-] OrgNode [0/2]
    - [ ] scheduling in orgnode header
-   - [ ] test all get_by_attributes()
 
 - [X] more Pep8 conformancy
-
 
 ** Authors
 
