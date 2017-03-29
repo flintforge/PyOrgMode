@@ -14,7 +14,7 @@ install:
   - pip install discover codecov
 
 script:
-   - coverage run -m unittest discover tests "test_*.py"
+   - coverage run -m unittest discover tests
    - python setup.py install
 
 after_success:

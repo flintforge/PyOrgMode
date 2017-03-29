@@ -1,4 +1,4 @@
-* Test
+* Agenda :test:
 ** Element 1
    SCHEDULED: <2011-02-08>
 ** Element 2
@@ -7,4 +7,3 @@
 *** Test
 *** Element 4
    SCHEDULED: <2011-02-08>
-**** Couic
