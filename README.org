@@ -67,6 +67,8 @@ for it in topnodes :
 
 - [X] more Pep8 conformancy
 
+#+END_SRC
+
 ** Authors
 
 #+begin_src ascii :tangle AUTHORS :exports code
