@@ -67,5 +67,3 @@ class TestDates(unittest.TestCase):
         self.assertEqual(date.get_value(), datestr)
 
 
-if __name__ == '__main__':
-    unittest.main()

@@ -28,6 +28,8 @@ class Testpyorgmode(unittest.TestCase):
         headings = [T.heading for T in topnodes]
         assert(headings)
         assert(topnodes)
+        assert(self.org.root[1].startswith('#+TITLE'))
+        assert( type( self.org.root[15] ) is pyorgmode.OrgNode.Element )
 
     def test_directives(self):
 
@@ -45,6 +47,12 @@ class Testpyorgmode(unittest.TestCase):
 
         self.assertEqual( self.org.get_directives(), expect)
         self.assertEqual( self.org.directives, expect)
+
+    def test_load_from_string(self):
+        org = OrgDataStructure()
+        org.load_from_string(self.org.output())
+        self.assertEqual(org.output(),self.org.output())
+
 
     def test_dict(self):
         self.org.root.dict()
@@ -70,6 +78,24 @@ class Testpyorgmode(unittest.TestCase):
             [('DONE', 'Structure des documents'), ('DONE', '/Outlines/'), ('DONE', 'Sections')]
         )
 
+    def test_get_tags(self):
+        T = self.org.get_nodes_by_tags(self.org.root,'TAG1')
+        print (T)
+
+    def test_get_headings(self):
+
+        H = self.org.get_nodes_by_attribute(self.org.root,'heading','TAGS')
+
+        assert(len(H) is 3)
+
+        expect = [
+            '* TAGS :TAG1::TAG2:\n** TAGS :TAG1:\n** TAGS :TAG1::TAG2:\n\n',
+            '** TAGS :TAG1:\n',
+            '** TAGS :TAG1::TAG2:\n\n'
+        ]
+
+        [ self.assertEqual( str(H[x]), expect[x]) for x in range(len(H)) ]
+
     def test_load_save_noheadline_org(self):
 
         infile = "tests/orgs/no_headline.org"
@@ -88,5 +114,3 @@ class Testpyorgmode(unittest.TestCase):
         self.assertEqual(saved, original)
 
 
-if __name__ == '__main__':
-    unittest.main()

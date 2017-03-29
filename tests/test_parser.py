@@ -32,5 +32,3 @@ class TestParser(unittest.TestCase):
         self.assertEqual(len(self.tree.root.content[1].content), 1)
 
 
-if __name__ == '__main__':
-    unittest.main()

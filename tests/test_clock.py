@@ -14,6 +14,3 @@ class TestClockElement(unittest.TestCase):
                 formatted_str = orgdate_element.get_value()
                 self.assertEqual(formatted_str, orig_str)
 
-
-if __name__ == '__main__':
-    unittest.main()

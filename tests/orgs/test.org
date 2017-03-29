@@ -32,10 +32,9 @@ SCHEDULED: <2010-10-10>
    :CLOCKSUM: 0
    :END:
 Test
-* TAGS TEST :TAG1::TAG2:
+* TAGS :TAG1::TAG2:
 ** TAGS :TAG1:
-** TAGS :TAG1::TAG2:
-
+** TAGS :TAG1::TAG2:
 
 * Priority
 ** [#A] A :a:
