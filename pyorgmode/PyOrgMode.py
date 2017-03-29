@@ -44,6 +44,11 @@ def xstr(s):
     return '' if s is None else str(s)
 
 
+class OrgDirective:
+    rgx_directives = re.compile('^#\+([\w]+):\s*(.*)$')
+
+
+
 class OrgDate:
     """Functions for date management"""
 
@@ -57,7 +62,7 @@ class OrgDate:
     REPEAT = 64
     CLOCKED = 128
 
-    RGX = {'start': '[[<]',
+    RGX = {'start': '[[<]', # todo : check begin and end item match
            'end':   '[]>]',
            'date':  '([0-9]{4})-([0-9]{2})-([0-9]{2})(\s+([\w.]+))?',
            'time':  '([0-9]{2}):([0-9]{2})',
@@ -78,7 +83,7 @@ class OrgDate:
     rgxClock = '(?P<clocked>{clock})'.format(**RGX)
 
 
-    def __init__(self, value=None):
+    def __init__(self, value):
         """
         Initialisation of an OrgDate element.
         """
@@ -91,6 +96,8 @@ class OrgDate:
         self.repeat
         self.active
         '''
+        self.value = None
+        self.repeat = None
         self.set(value)
 
     def parse_datetime(self, s):
@@ -128,7 +135,6 @@ class OrgDate:
 
     def set(self,value):
 
-        self.value = None
         # whether it is an active date-time or not
         if value[0] == '<':
             self.format |= self.ACTIVE
@@ -165,6 +171,7 @@ class OrgDate:
         if match:
             timed, weekdayed, self.value = self.parse_datetime(
                 match.group('datetime'))
+
             if match.group('repeat'):
                 self.repeat = match.group('repeat')
                 self.format |= self.REPEAT
