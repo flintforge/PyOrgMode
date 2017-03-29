@@ -29,6 +29,8 @@ class Testpyorgmode(unittest.TestCase):
         assert(headings)
         assert(topnodes)
         assert(self.org.root[1].startswith('#+TITLE'))
+        print(type( self.org.root[15] ))
+        print(isinstance(self.org.root[15],pyorgmode.PyOrgMode.OrgElement))
         assert( type( self.org.root[15] ) is pyorgmode.PyOrgMode.OrgNode.Element )
 
     def test_directives(self):
