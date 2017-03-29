@@ -6,7 +6,7 @@
 
 import locale
 import pyorgmode
-from pyorgmode import OrgDataStructure
+from pyorgmode import OrgDataStructure, OrgNode
 try:
     import unittest2 as unittest
 except ImportError:
@@ -29,7 +29,7 @@ class Testpyorgmode(unittest.TestCase):
         assert(headings)
         assert(topnodes)
         assert(self.org.root[1].startswith('#+TITLE'))
-        assert( type( self.org.root[15] ) is pyorgmode.OrgNode.Element )
+        assert( type( self.org.root[15] ) is OrgNode.Element )
 
     def test_directives(self):
 
@@ -80,7 +80,7 @@ class Testpyorgmode(unittest.TestCase):
 
     def test_get_tags(self):
         T = self.org.get_nodes_by_tags(self.org.root,'TAG1')
-        print (T)
+        #print (T)
 
     def test_get_headings(self):
 
